@@ -14,11 +14,12 @@
     "react-scripts": "3.4.0",
     "react-speech": "^1.0.2",
     "react-speech-recognition": "^3.8.0",
+    "rewire": "^5.0.0",
     "serve": "^11.3.0"
   },
   "scripts": {
     "dev": "PORT=3002 react-scripts start",
-    "build": "react-scripts build",
+    "build": "node build-no-split.js",
     "netlify-build": "sed -i s/DAILY_API_KEY_PLACEHOLDER/${DAILY_API_KEY}/g netlify.toml && npm run build",
     "start": "PORT=3002 serve build",
     "eject": "react-scripts eject"
