@@ -6,6 +6,7 @@ export default function Chat(props) {
   const callObject = useContext(CallObjectContext);
   const [inputValue, setInputValue] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [tranLatedReceivedText , setTranLatedReceivedText] = useState('');
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
@@ -61,12 +62,23 @@ export default function Chat(props) {
 
   useEffect(() => {}, [chatHistory]);
 
+function playMessage(message) {
+var msg = new SpeechSynthesisUtterance();
+msg.text = message;
+window.speechSynthesis.speak(msg);
+}
+
+
   return props.onClickDisplay ? (
     <div className="chat">
       {chatHistory.map((entry, index) => (
         <div key={`entry-${index}`} className="messageList">
           <b>{entry.sender}</b>: {entry.message}
+          <button onClick={()=>playMessage(entry.message)}>
+            Play
+          </button>
         </div>
+        
       ))}
       <form onSubmit={handleSubmit}>
         <label htmlFor="chatInput"></label>
