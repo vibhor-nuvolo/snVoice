@@ -7,7 +7,7 @@ import { SayButton } from 'react-say';
 import { translateTranscript } from './client/api';
 import CallObjectContext from '../../CallObjectContext';
 
-const SNVoice = () => {
+const SNVoice = (props) => {
   const { transcript, resetTranscript} = useSpeechRecognition();
   const [title, setTitle] = useState('');
   const [translatedText,setTranslatedText] = useState('');
@@ -41,7 +41,6 @@ const SNVoice = () => {
 
   const callApi = () => {
     translateTranscript(transcript, 'fr').then((data) => {
-      console.log(data);
       setTranslatedText(data.data.result.translated_text);
       callObject.sendAppMessage({ message: data.data.result.translated_text }, '*');
     });
@@ -50,10 +49,10 @@ const SNVoice = () => {
   return (
     <div style={{ display: 'flex' }}>
       {title}
-      <button style={{ marginRight: 10 }} onClick={() => resetTranscript()}>
+      <button style={{ marginRight: 10 }} onClick={() => {setTranslatedText('');return resetTranscript()}}>
         Reset
       </button>
-      <button style={{ marginRight: 10 }} onClick={callApi}>Send</button>
+      {!translatedText ? <button style={{ marginRight: 10 }} onClick={callApi}>Send</button> : null}
       {translatedText && <SayButton
         onClick={(event) => null}
         speak={translatedText}

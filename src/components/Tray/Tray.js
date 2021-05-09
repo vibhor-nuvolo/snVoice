@@ -48,7 +48,6 @@ export default function Tray(props) {
   const [displayChat, setChatDisplay] = useState(false);
   const [highlightedChat, setChatHighlight] = useState(false);
   const [snVoice, setSnVoice] = useState(false);
-
 function handelSnVoice (e) {
     if (!snVoice) {
       setSnVoice(!snVoice);
