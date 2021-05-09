@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import CallObjectContext from '../../CallObjectContext';
 import './Chat.css';
+import { translateTranscript ,getLanguage} from '../Tray/client/api';
 
 export default function Chat(props) {
   const callObject = useContext(CallObjectContext);
@@ -63,8 +64,15 @@ export default function Chat(props) {
   useEffect(() => {}, [chatHistory]);
 
 function playMessage(message) {
+   getLanguage().then((langData) =>{
+   var language = langData?.data?.result?.language || "en";
+    translateTranscript(message, language).then((data) => {
+      console.log('@@vibhor play button chat',data);
+      setTranLatedReceivedText(data.data.result.translated_text);
+    });
+  });
 var msg = new SpeechSynthesisUtterance();
-msg.text = message;
+msg.text = translateTranscript;
 window.speechSynthesis.speak(msg);
 }
 
