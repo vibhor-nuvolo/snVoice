@@ -205,6 +205,11 @@ export default function App() {
    */
   const enableStartButton = appState === STATE_IDLE;
 
+
+if(!localStorage.getItem("lang")){
+  localStorage.setItem("lang",'en');
+}
+
   return (
     <div className="app">
       {showCall ? (

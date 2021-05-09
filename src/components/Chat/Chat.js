@@ -64,17 +64,15 @@ export default function Chat(props) {
   useEffect(() => {}, [chatHistory]);
 
 function playMessage(message) {
-   getLanguage().then((langData) =>{
-   var language = langData?.result?.language || "en";
-   console.log(langData);
-    translateTranscript(message, language).then((data) => {
+let selectedLanguage = localStorage.getItem("lang") || 'en';
+   console.log('@@vibhor language', selectedLanguage);
+    translateTranscript(message, selectedLanguage).then((data) => {
       console.log('@@vibhor play button chat',data);
       // setTranLatedReceivedText(data.data.result.translated_text);
       var msg = new SpeechSynthesisUtterance();
       msg.text = data.data.result.translated_text;
       window.speechSynthesis.speak(msg);
     });
-  });
 }
 
 

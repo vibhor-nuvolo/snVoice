@@ -59,7 +59,7 @@ const SNVoice = (props) => {
   return (
     <div style={{ display: 'flex' }}>
       {title}
-      <button style={{ marginRight: 10 }} onClick={() => {setTranslatedText('');return resetTranscript()}}>
+      <button style={{ marginRight: 10 }} onClick={() => resetTranscript()}>
         Reset
       </button>
       {!translatedText ? <button style={{ marginRight: 10 }} onClick={callApi}>Send</button> : null}

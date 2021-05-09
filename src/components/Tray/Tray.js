@@ -116,6 +116,14 @@ function handelSnVoice (e) {
     };
   }, [callObject]);
 
+function onLanguageChange (e){
+  localStorage.setItem("lang", e.target.value)
+}
+
+function getCurrentLanguage() {
+  return localStorage.getItem("lang")
+}
+
   return (
     <div className="tray">
       <TrayButton
@@ -154,6 +162,11 @@ function handelSnVoice (e) {
       />
       {snVoice ? <SNVoice />: null}
       </div>
+       <select defaultValue={getCurrentLanguage()} onChange={onLanguageChange}>
+         <option value='en' >English</option>
+         <option value='fi'>Finnish</option>
+         <option value='hi'>Hindi</option>
+       </select>
       <TrayButton
         type={TYPE_LEAVE}
         disabled={props.disabled}
