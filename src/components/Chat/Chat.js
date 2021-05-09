@@ -68,12 +68,12 @@ function playMessage(message) {
    var language = langData?.data?.result?.language || "en";
     translateTranscript(message, language).then((data) => {
       console.log('@@vibhor play button chat',data);
-      setTranLatedReceivedText(data.data.result.translated_text);
+      // setTranLatedReceivedText(data.data.result.translated_text);
+      var msg = new SpeechSynthesisUtterance();
+      msg.text = data.data.result.translated_text;
+      window.speechSynthesis.speak(msg);
     });
   });
-var msg = new SpeechSynthesisUtterance();
-msg.text = translateTranscript;
-window.speechSynthesis.speak(msg);
 }
 
 
