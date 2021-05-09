@@ -1,15 +1,17 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useContext } from 'react';
 import './SNVoice.css';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
 import { SayButton } from 'react-say';
 import { translateTranscript } from './client/api';
+import CallObjectContext from '../../CallObjectContext';
 
 const SNVoice = () => {
   const { transcript, resetTranscript} = useSpeechRecognition();
   const [title, setTitle] = useState('');
   const [translatedText,setTranslatedText] = useState('');
+   const callObject = useContext(CallObjectContext);
 
   const startListen = useCallback((event) => {
     if (event.keyCode === 32) {
@@ -40,8 +42,8 @@ const SNVoice = () => {
   const callApi = () => {
     translateTranscript(transcript, 'fr').then((data) => {
       console.log(data);
-      alert(data.data.result.translated_text);
       setTranslatedText(data.data.result.translated_text);
+      callObject.sendAppMessage({ message: data.data.result.translated_text }, '*');
     });
   };
 
@@ -51,15 +53,18 @@ const SNVoice = () => {
       <button style={{ marginRight: 10 }} onClick={() => resetTranscript()}>
         Reset
       </button>
-      <button onClick={callApi}>Translate</button>
+      <button style={{ marginRight: 10 }} onClick={callApi}>Send</button>
       {translatedText && <SayButton
-        onClick={(event) => callApi}
+        onClick={(event) => null}
         speak={translatedText}
       >
-       Click to send
+       Play
       </SayButton>}
       <div style={{ marginLeft: 10, backgroundColor: 'grey' }}>
         <p style={{ color: 'white' }}>{transcript}</p>
+      </div>
+      <div style={{ marginLeft: 10, backgroundColor: 'grey' }}>
+        <p style={{ color: 'white' }}>{translatedText}</p>
       </div>
     </div>
   );
