@@ -4,14 +4,14 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
 import { SayButton } from 'react-say';
-import { translateTranscript } from './client/api';
+import { translateTranscript ,getLanguage} from './client/api';
 import CallObjectContext from '../../CallObjectContext';
 
 const SNVoice = () => {
   const { transcript, resetTranscript} = useSpeechRecognition();
   const [title, setTitle] = useState('');
   const [translatedText,setTranslatedText] = useState('');
-   const callObject = useContext(CallObjectContext);
+  const callObject = useContext(CallObjectContext);
 
   const startListen = useCallback((event) => {
     if (event.keyCode === 32) {
@@ -25,7 +25,9 @@ const SNVoice = () => {
       setTitle('');
     }
   }, []);
+
   useEffect(() => {
+   
     document.addEventListener('keydown', startListen, false);
     document.addEventListener('keyup', stopListen, false);
 
@@ -40,11 +42,14 @@ const SNVoice = () => {
   }
 
   const callApi = () => {
+   getLanguage().then((langData) =>{
+   var language = langData?.data?.result?.language || "en";
     translateTranscript(transcript, 'fr').then((data) => {
       console.log(data);
-      setTranslatedText(data.data.result.translated_text);
+      setTranslatedText(data.data.result.translated_text,language);
       callObject.sendAppMessage({ message: data.data.result.translated_text }, '*');
     });
+  });
   };
 
   return (
