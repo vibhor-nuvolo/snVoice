@@ -65,7 +65,8 @@ export default function Chat(props) {
 
 function playMessage(message) {
    getLanguage().then((langData) =>{
-   var language = langData?.data?.result?.language || "en";
+   var language = langData?.result?.language || "en";
+   console.log(langData);
     translateTranscript(message, language).then((data) => {
       console.log('@@vibhor play button chat',data);
       // setTranLatedReceivedText(data.data.result.translated_text);
