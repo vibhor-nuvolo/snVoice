@@ -40,7 +40,6 @@ const SNVoice = () => {
   const callApi = () => {
     translateTranscript(transcript, 'fr').then((data) => {
       console.log(data);
-      alert(data.data.result.translated_text);
       setTranslatedText(data.data.result.translated_text);
     });
   };

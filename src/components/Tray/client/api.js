@@ -5,6 +5,11 @@ export const translateTranscript = async (transcript, language) => {
     target_language: 'fr',
     source_language_message: 'Hi! How are you?',
   };
-  const endpoint = '/api/393015/translation_service/getTranslatedText';
+  const endpoint = '/api/x_snc_now_mobile_d/translation_service/getTranslatedText';
   return await getClient().post(endpoint, payload);
 };
+
+export const getLanguage = async() =>{
+  const endpoint = '/api/x_snc_now_mobile_d/translation_service/getUserLanguage';
+  return await getClient().get(endpoint);
+}
